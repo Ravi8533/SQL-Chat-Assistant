@@ -100,22 +100,26 @@ def get_response(query_type,param):
     try:
         if query_type == "employees_in": 
             #case when need to find employees names in the given department
-            results = execute_query("SELECT Name FROM Employees WHERE Department = ?", (param.capitalize(),), True)
+            query = 'SELECT Name FROM Employees WHERE Department = "{}"'.format(param.capitalize())
+            results = execute_query(query, True)
             response = [row[0] for row in results] if results else ["No employees found"]
         
         elif query_type == "manager_of":
             #case when need to find Manager names in the given department
-            result = execute_query("SELECT Manager FROM Departments WHERE Name = ?", (param.capitalize(),), False)
+            query = 'SELECT Manager FROM Departments WHERE Name = "{}"'.format(param.capitalize())
+            result = execute_query(query, False)
             response = result[0] if result else "No manager found"
         
         elif query_type == "hired_after":
             #case when need to find employees names hire after a particular date
-            results = execute_query("SELECT Name FROM Employees WHERE Hire_Date > ?", (param.capitalize(),), True)
+            query = 'SELECT Name FROM Employees WHERE Hire_Date > "{}"'.format(param.capitalize())
+            results = execute_query(query, True)
             response = [row[0] for row in results] if results else ["No employees found"]
         
         elif query_type == "salary_expense":
             #case when need to find employees Salary in the given department
-            result = execute_query("SELECT SUM(Salary) FROM Employees WHERE Department = ?", (param.capitalize(),), False)
+            query = 'SELECT SUM(Salary) FROM Employees WHERE Department = "{}"'.format (param.capitalize())
+            result = execute_query(query, False)
             response = f"Total salary expense: {result[0]}" if result[0] else "No data found"
         
         else:
